@@ -10,21 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <script src="/baremux/index.js"></script>
-  <script src="/scram/scramjet.all.js"></script>
-
-  <style>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Default Cloak Settings -->
-  <title>Dashboard</title>
-  <link id="dynamic-favicon" rel="icon" type="image/png" href="https://www.google.com/favicon.ico" />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="./baremux/index.js"></script>
+  <script src="./scram/scramjet.all.js"></script>
 
   <style>
     :root {
@@ -40,7 +27,7 @@
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-dark);
-      background-image: 
+      background-image:
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
       color: white;
@@ -62,7 +49,7 @@
     }
 
     .header { text-align: center; margin-bottom: 40px; }
-    
+
     .header h1 {
       font-size: 2.8rem;
       letter-spacing: -1px;
@@ -74,7 +61,6 @@
 
     .header p { color: #94a3b8; font-size: 1.1rem; }
 
-    /* Modern Search Bar */
     .search-container {
       position: relative;
       display: flex;
@@ -116,7 +102,6 @@
 
     .proxy-button:hover { opacity: 0.9; }
 
-    /* Cloaking Section */
     .settings-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -130,7 +115,13 @@
       padding: 24px;
     }
 
-    .card h3 { font-size: 0.9rem; color: #818cf8; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 1px; }
+    .card h3 {
+      font-size: 0.9rem;
+      color: #818cf8;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
 
     .select-style, .input-style {
       width: 100%;
@@ -152,11 +143,10 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <div class="header">
       <h1>Titanium</h1>
-      <p>Secure, private, and undetectable browsing.</p>
+      <p>Private browsing dashboard.</p>
     </div>
 
     <form class="search-container" id="proxy-form">
@@ -165,81 +155,117 @@
     </form>
 
     <div class="settings-grid">
-      <!-- Quick Presets -->
       <div class="card">
-        <h3>App Disguises</h3>
+        <h3>Tab Presets</h3>
         <select id="cloak-presets" class="select-style" onchange="applyPreset()">
-          <option value="default">Select a Disguise...</option>
+          <option value="default">Select a preset...</option>
           <option value="google">Google Search</option>
           <option value="classroom">Google Classroom</option>
           <option value="drive">Google Drive</option>
           <option value="canvas">Canvas LMS</option>
           <option value="zoom">Zoom</option>
         </select>
-        <p style="font-size: 0.75rem; color: #64748b;">Instantly switch icons and tab titles to stay hidden.</p>
+        <p style="font-size: 0.75rem; color: #64748b;">Change the browser tab title and icon.</p>
       </div>
 
-      <!-- Custom Cloak -->
       <div class="card">
-        <h3>Manual Cloak</h3>
+        <h3>Custom Tab</h3>
         <input type="text" id="custom-title" class="input-style" placeholder="New tab title...">
         <input type="text" id="custom-icon" class="input-style" placeholder="Favicon URL...">
-        <button class="proxy-button" style="width: 100%; padding: 10px;" onclick="applyCustomCloak()">Apply</button>
+        <button type="button" class="proxy-button" style="width: 100%; padding: 10px;" onclick="applyCustomCloak()">Apply</button>
       </div>
     </div>
-</div>
+  </div>
 
-<script>
-  const presets = {
-      google: { title: 'Google', icon: 'https://www.google.com/favicon.ico' },
-      classroom: { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
-      drive: { title: 'My Drive - Google Drive', icon: 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png' },
-      canvas: { title: 'Dashboard', icon: 'https://du11hjcvhe62z.cloudfront.net/assets/favicon.ico' },
-      zoom: { title: 'Join Meeting | Zoom', icon: 'https://st1.zoom.us/zoom.ico' }
+  <script>
+    const presets = {
+      google: { title: "Google", icon: "https://www.google.com/favicon.ico" },
+      classroom: { title: "Classes", icon: "https://ssl.gstatic.com/classroom/favicon.png" },
+      drive: { title: "My Drive - Google Drive", icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" },
+      canvas: { title: "Dashboard", icon: "https://du11hjcvhe62z.cloudfront.net/assets/favicon.ico" },
+      zoom: { title: "Join Meeting | Zoom", icon: "https://st1.zoom.us/zoom.ico" }
     };
 
     function setTabInfo(title, icon) {
       document.title = title;
-      document.getElementById('dynamic-favicon').href = icon;
-      // Store in localStorage so it persists across page loads
-      localStorage.setItem('cloakTitle', title);
-      localStorage.setItem('cloakIcon', icon);
+      document.getElementById("dynamic-favicon").href = icon;
+      localStorage.setItem("cloakTitle", title);
+      localStorage.setItem("cloakIcon", icon);
     }
 
     function applyPreset() {
-      const val = document.getElementById('cloak-presets').value;
+      const val = document.getElementById("cloak-presets").value;
       if (presets[val]) {
         setTabInfo(presets[val].title, presets[val].icon);
       }
     }
 
     function applyCustomCloak() {
-      const title = document.getElementById('custom-title').value;
-      const icon = document.getElementById('custom-icon').value;
-      if (title) setTabInfo(title, icon || 'https://www.google.com/favicon.ico');
+      const title = document.getElementById("custom-title").value;
+      const icon = document.getElementById("custom-icon").value;
+      if (title) setTabInfo(title, icon || "https://www.google.com/favicon.ico");
     }
 
-    // Persistence Logic
-    window.onload = () => {
-      const savedTitle = localStorage.getItem('cloakTitle');
-      const savedIcon = localStorage.getItem('cloakIcon');
-      if (savedTitle) setTabInfo(savedTitle, savedIcon);
-    };
+    window.addEventListener("load", () => {
+      const savedTitle = localStorage.getItem("cloakTitle");
+      const savedIcon = localStorage.getItem("cloakIcon");
+      if (savedTitle) setTabInfo(savedTitle, savedIcon || "https://www.google.com/favicon.ico");
+    });
 
-    // Proxy Redirect Logic
-    document.getElementById('proxy-form').addEventListener('submit', (e) => {
+    let scramjetReady = false;
+    let scramjet;
+
+    async function setupScramjet() {
+      const basePath = new URL("./", window.location.href).pathname;
+      const { ScramjetController } = $scramjetLoadController();
+
+      scramjet = new ScramjetController({
+        prefix: basePath + "service/",
+        files: {
+          wasm: basePath + "scram/scramjet.wasm.wasm",
+          all: basePath + "scram/scramjet.all.js",
+          sync: basePath + "scram/scramjet.sync.js"
+        }
+      });
+
+      await scramjet.init();
+
+      await navigator.serviceWorker.register(basePath + "sw.js", {
+        scope: basePath
+      });
+
+      const connection = new BareMux.BareMuxConnection(basePath + "baremux/worker.js");
+
+      await connection.setTransport(basePath + "epoxy/index.mjs", [{
+        wisp: "wss://YOUR-WISP-SERVER-HERE/"
+      }]);
+
+      scramjetReady = true;
+    }
+
+    setupScramjet().catch((error) => {
+      console.error("Scramjet failed to start:", error);
+      alert("Scramjet did not load. Check that the scram, baremux, epoxy, and sw.js files exist.");
+    });
+
+    document.getElementById("proxy-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const input = document.getElementById('url-input').value;
-      let url = input.trim();
 
-      if (!url.includes('.') || url.includes(' ')) {
-        url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
-      } else if (!url.startsWith('http')) {
-        url = 'https://' + url;
+      if (!scramjetReady) {
+        alert("Proxy is still loading. Try again in a second.");
+        return;
       }
 
-      // Point this to your Scramjet/Worker endpoint
-      window.location.href = `/service/${btoa(url)}`;
+      const input = document.getElementById("url-input").value;
+      let url = input.trim();
+
+      if (!url.includes(".") || url.includes(" ")) {
+        url = "https://www.google.com/search?q=" + encodeURIComponent(url);
+      } else if (!url.startsWith("http")) {
+        url = "https://" + url;
+      }
+
+      window.location.href = scramjet.encodeUrl(url);
     });
   </script>
 </body>
