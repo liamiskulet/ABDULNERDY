@@ -1,4 +1,6 @@
-importScripts("/scram/scramjet.all.js");
+const basePath = new URL("./", self.registration.scope).pathname;
+
+importScripts(basePath + "scram/scramjet.all.js");
 
 const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
